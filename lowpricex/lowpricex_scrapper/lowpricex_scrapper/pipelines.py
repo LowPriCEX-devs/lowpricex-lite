@@ -5,7 +5,8 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
+class ProcesadorJuegos(object):
 
-class LowpricexScrapperPipeline(object):
     def process_item(self, item, spider):
+        #print("Juego: %s" % item["titulo"])
         return item

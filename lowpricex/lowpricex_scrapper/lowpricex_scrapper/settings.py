@@ -47,7 +47,7 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'lowpricex_scrapper.middlewares.LowpricexScrapperSpiderMiddleware': 543,
+#    'lowpricex_scrapper.middlewares.ProcesadorJuegos': 543,
 #}
 
 # Enable or disable downloader middlewares
@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'lowpricex_scrapper.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'lowpricex_scrapper.pipelines.ProcesadorJuegos': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

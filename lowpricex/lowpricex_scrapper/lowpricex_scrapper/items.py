@@ -7,8 +7,12 @@
 
 import scrapy
 
-
-class LowpricexScrapperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class JuegoCEX(scrapy.Item):
+    titulo = scrapy.Field()
+    sku = scrapy.Field()
+    img_caratula = scrapy.Field()
+    precio_venta = scrapy.Field()
+    precio_compra = scrapy.Field()
+    precio_intercambio = scrapy.Field()
+    categoria_id = scrapy.Field()
+    categoria_str = scrapy.Field()

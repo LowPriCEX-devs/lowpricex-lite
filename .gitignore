@@ -144,3 +144,7 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+##Sublime
+*.sublime-workspace
+*.sublime-project

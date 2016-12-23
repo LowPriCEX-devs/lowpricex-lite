@@ -20,7 +20,7 @@ categorias = [
 class CexSpider(scrapy.Spider):
     name = "CexSpider"
     start_urls = ["https://es.webuy.com/search/index.php?catid=%d&page=1&counter=0" % x[0] for x in categorias]
-    download_delay = 1
+    download_delay = 2
 
     def parse(self, response):
         catId = re.search("catid=(\d*)", response.url).group(1)

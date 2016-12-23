@@ -9,7 +9,7 @@ import requests
 from urllib.parse import quote_plus # URL Encoding
 from scrapy.exceptions import DropItem
 from logging import debug, info, warning, error 
-from api_keys import KEY_IGDB_API
+from .api_keys import KEY_IGDB_API
 
 class ProcesadorJuegos(object):
 

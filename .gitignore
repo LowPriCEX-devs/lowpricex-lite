@@ -1,6 +1,9 @@
 ##Clave de la API
 lowpricex/lowpricex_scrapper/lowpricex_scrapper/api_keys.py
 
+## Configuración secreta de Django
+lowpricex/lowpricex/secret_settings.py
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

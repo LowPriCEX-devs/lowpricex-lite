@@ -2,6 +2,7 @@
 import os
 import sys
 
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lowpricex.settings")
     try:
@@ -19,4 +20,20 @@ if __name__ == "__main__":
                 "forget to activate a virtual environment?"
             )
         raise
-    execute_from_command_line(sys.argv)
+    
+    import django
+    django.setup()
+    
+    argv = sys.argv[1]
+
+    if argv == 'loadData':
+        #Load the data into the database
+        from populateDatabase import populateDatabase
+        populateDatabase()
+    elif argv == 'performScraping':
+        #Set the scraping and load it to the database
+        pass
+    else:
+        execute_from_command_line(sys.argv)
+
+

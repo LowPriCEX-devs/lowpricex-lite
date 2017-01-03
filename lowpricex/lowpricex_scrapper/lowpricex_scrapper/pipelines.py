@@ -15,7 +15,7 @@ try:
 except:
     from .api_keys      import KEY_IGDB_API, KEY_YANDEX_TRANSLATOR
 
-SEMEJANZA_MINIMA_TITULO = 0.65
+SEMEJANZA_MINIMA_TITULO = 0.5
 
 class ProcesadorJuegos(object):
 

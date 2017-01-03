@@ -100,7 +100,7 @@ class Juego(models.Model):
     precioIntercambio = models.FloatField()
     fechaSalida = models.DateField(null=True)
     actualizado = models.DateField()
-    categorias = models.ManyToManyField(Categoria)
+    categoria = models.ForeignKey(Categoria)
     desarrolladores = models.ManyToManyField(Desarrollador)
     publishers = models.ManyToManyField(Publisher)
     keywords = models.ManyToManyField(Keyword)

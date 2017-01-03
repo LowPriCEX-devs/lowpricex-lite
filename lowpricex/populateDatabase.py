@@ -1,10 +1,14 @@
 #encoding:utf-8
-from lowpricex_app.models import Plataforma, Juego, HistoricoJuego
+
 import csv
-from datetime import datetime
+
+from datetime                       import datetime
+from lowpricex_scrapper.items       import JuegoCEX
+from lowpricex_scrapper.pipelines   import ProcesadorJuegos
+from lowpricex_app.models           import Plataforma, Categoria, Juego
+from scrapy.exceptions              import DropItem
 
 path = "data"
-
 
 def populatePlatforms():
     print("Loading platforms....")
@@ -15,65 +19,55 @@ def populatePlatforms():
         for row in platformsReader:
             Plataforma(idPlataforma=row[0], nombre=row[1], abreviatura=row[2], logo=row[3]).save()
 
-    print("Platform inserted: " + str(Plataforma.objects.count()))
+    print("Platforms inserted: " + str(Plataforma.objects.count()))
+    print("---------------------------------------------------------")
+
+def populateCategories():
+    print("Loading categories....")
+    
+    with open(path+"/categories.csv", "rt") as csvfile:
+        categoriesReader = csv.reader(csvfile, delimiter=';')
+        next(categoriesReader, None)
+        for row in categoriesReader:
+            Categoria(idCategoria=row[0], categoria=row[1]).save()
+
+    print("Categories inserted: " + str(Categoria.objects.count()))
     print("---------------------------------------------------------")
 
 
-
-def insertarHistorico(fecha, precioVenta, precioIntercambio, precioCompra, juego):
-    HistoricoJuego(juego=juego, fecha=fecha, precioVenta=precioVenta, precioIntercambio=precioIntercambio, precioCompra=precioCompra).save()
-    juego.precioVenta = precioVenta
-    juego.precioIntercambio = precioIntercambio
-    juego.precioCompra = precioCompra
-    juego.actualizado = fecha
-    juego.save()
-
 def populateCrawlings(file):
     fecha = datetime.strptime(file.split(".")[0], '%Y-%m-%d').date()
+    procesador = ProcesadorJuegos()
     
     with open(path+"/"+file, "rt") as csvfile:
         fileReader = csv.reader(csvfile, delimiter=",", quotechar='"')
+        # Nos saltamos la fila de headers
         next(fileReader, None)
+
         for row in fileReader:
             if not row[6].isdigit():
+                # Si el SKU no es numérico, nos lo saltamos
                 continue
-            
-            print(row[5])
-            
-            plataforma = Plataforma.objects.get(pk=row[0])
-            precioVenta = float(row[1])
-            precioIntercambio = float(row[3])
-            precioCompra = float(row[4])
-            nombre = row[5]
-            sku = int(row[6])
-            imagenCaratula = "https://es.webuy.com" + row[7]
-            
-            #Si no existe el juego en la base de datos, lo damos de alta.            
-            if not Juego.objects.filter(pk=sku).exists():
-                Juego(sku=sku, plataforma=plataforma, nombre=nombre, portada=imagenCaratula, precioVenta=precioVenta, precioCompra=precioCompra, precioIntercambio=precioIntercambio, actualizado=fecha).save()
-            
-            #Obtenemos el juego que estamos tratando
-            juego = Juego.objects.get(pk=sku)
-            
-            try:
-                # Si hay histórico obtenemos el más reciente
-                hJuego = HistoricoJuego.objects.filter(juego=sku).order_by('-fecha')[:1].get()
 
-                # Si el más reciente tiene ALGO diferente, lo metemos en el histórico y actualizamos el registro
-                if hJuego.juego.actualizado > fecha and (hJuego.precioCompra != precioCompra or hJuego.precioIntercambio != precioIntercambio or hJuego.precioVenta != precioVenta):
-                    insertarHistorico(fecha, precioVenta, precioIntercambio, precioCompra, juego)
-                     
-            except:
-                insertarHistorico(fecha, precioVenta, precioIntercambio, precioCompra, juego)
+            juegocex = JuegoCEX(titulo=row[5], sku=row[6], img_caratula=row[7], precio_venta=row[1], precio_compra=row[4], precio_intercambio=row[3], categoria_id=row[0], categoria_str=row[2])
+            
+            print("Procesando: " + juegocex["titulo"])
+
+            try:
+                procesador.process_item(juegocex, None, fecha)
+            except DropItem:
+                print("El juego %s no se encontró en IGDB" % juegocex["titulo"])
+            
 
     print("Games inserted: " + str(Juego.objects.count()))
     print("---------------------------------------------------------")
 
     
-    #Función que carga los datos
+#Función que carga los datos
 def populateDatabase():
     populatePlatforms()
-    #populateCrawlings('2016-12-31.csv')
+    populateCategories()
+    populateCrawlings('2016-12-22.csv')
 
     
     print("Finished database population")

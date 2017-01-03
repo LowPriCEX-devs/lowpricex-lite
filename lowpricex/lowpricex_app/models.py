@@ -1,20 +1,6 @@
 # encoding:utf-8
 from django.db import models
 
-
-class BatchExec(models.Model):
-    startDate = models.DateTimeField()
-    endDate = models.DateTimeField()
-    result = models.TextField()
-    resultDetails = models.TextField()
-    
-    def __str__(self):
-        return self.result
-    
-    class Meta:
-        ordering = ('startDate', )
-        
-
 class Plataforma(models.Model):
     idPlataforma = models.IntegerField(primary_key=True)
     nombre = models.TextField()
@@ -37,16 +23,6 @@ class Categoria(models.Model):
     
     class Meta:
         ordering = ('categoria', )
-
-class Desarrollador(models.Model):
-    idDesarrollador = models.IntegerField(primary_key=True)
-    desarrollador = models.TextField()
-    
-    def __str__(self):
-        return self.desarrollador
-    
-    class Meta:
-        ordering = ('desarrollador', )
         
 class Keyword(models.Model):
     idKeyword = models.IntegerField(primary_key=True)
@@ -58,15 +34,15 @@ class Keyword(models.Model):
     class Meta:
         ordering = ('keyword', )
         
-class Publisher(models.Model):
-    idPublisher = models.IntegerField(primary_key=True)
-    publisher = models.TextField()
+class Empresa(models.Model):
+    idEmpresa = models.IntegerField(primary_key=True)
+    empresa = models.TextField()
     
     def __str__(self):
-        return self.publisher
+        return self.empresa
     
     class Meta:
-        ordering = ('publisher', )
+        ordering = ('empresa', )
         
 class Genero(models.Model):
     idGenero = models.IntegerField(primary_key=True)
@@ -101,8 +77,8 @@ class Juego(models.Model):
     fechaSalida = models.DateField(null=True)
     actualizado = models.DateField()
     categoria = models.ForeignKey(Categoria)
-    desarrolladores = models.ManyToManyField(Desarrollador)
-    publishers = models.ManyToManyField(Publisher)
+    desarrolladores = models.ManyToManyField(Empresa, related_name="desarrolladores")
+    publishers = models.ManyToManyField(Empresa, related_name="publishers")
     keywords = models.ManyToManyField(Keyword)
     generos = models.ManyToManyField(Genero)
     temas = models.ManyToManyField(Tema)

@@ -14,6 +14,7 @@ BOT_NAME = 'lowpricex_scrapper'
 SPIDER_MODULES = ['lowpricex_scrapper.spiders']
 NEWSPIDER_MODULE = 'lowpricex_scrapper.spiders'
 
+LOG_FORMATTER = 'lowpricex_scrapper.spiders.cex_log_formatter.PoliteLogFormatter'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'lowpricex_scrapper (+http://www.yourdomain.com)'

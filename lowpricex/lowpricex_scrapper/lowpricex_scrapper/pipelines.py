@@ -21,6 +21,9 @@ class ProcesadorJuegos(object):
 
     def process_item(self, item, spider, curDate=datetime.now()): # El parámetro curDate es necesario por si estamos insertando datos antiguos con el populate
 
+        if not item["sku"].isdigit():
+            raise DropItem("El juego %s no tiene un SKU válido" % item["titulo"])
+
         # Si el juego ya está en la BD
         if Juego.objects.filter(pk=item["sku"]).exists():
             juegoGuardado = Juego.objects.get(pk=item["sku"])

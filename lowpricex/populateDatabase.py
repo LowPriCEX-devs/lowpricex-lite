@@ -106,6 +106,8 @@ def populateCrawlings(file):
                 procesador.process_item(juegocex, None, fecha)
             except DropItem:
                 print("El juego %s no se encontró en IGDB" % juegocex["titulo"])
+            except:
+                print("Excepción no controlada")
 
             i += 1
             if i % 100 == 0:

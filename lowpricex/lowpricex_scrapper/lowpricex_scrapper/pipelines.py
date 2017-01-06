@@ -28,6 +28,10 @@ class ProcesadorJuegos(object):
         if Juego.objects.filter(pk=item["sku"]).exists():
             juegoGuardado = Juego.objects.get(pk=item["sku"])
 
+            if not juegoGuardado.actualizado < curDate:
+                return item
+                # Si en esta pasada ya se ha actualizado, saltar este juego (SKU repetido en CEX)
+
             pVenta = float(item["precio_venta"])
             pCompra = float(item["precio_compra"])
             pIntercambio = float(item["precio_intercambio"])

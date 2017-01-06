@@ -90,7 +90,7 @@ def populateCrawlings(file):
     with open(path+"/"+file, "rt") as csvfile:
         fileReader = csv.reader(csvfile, delimiter=",", quotechar='"')
         # Nos saltamos la fila de headers
-        next(fileReader, None)
+        headers = next(fileReader, None)
 
         i = 0
         for row in fileReader:
@@ -98,7 +98,10 @@ def populateCrawlings(file):
                 # Si el SKU no es numérico, nos lo saltamos
                 continue
 
-            juegocex = JuegoCEX(titulo=row[5], sku=row[6], img_caratula=row[7], precio_venta=row[1], precio_compra=row[4], precio_intercambio=row[3], categoria_id=row[0], categoria_str=row[2])
+            juegocex = JuegoCEX(titulo=row[headers.index("titulo")], sku=row[headers.index("sku")], img_caratula=row[headers.index("img_caratula")], 
+                                            precio_venta=row[headers.index("precio_venta")], precio_compra=row[headers.index("precio_compra")], 
+                                            precio_intercambio=row[headers.index("precio_intercambio")], categoria_id=row[headers.index("categoria_id")], 
+                                            categoria_str=row[headers.index("categoria_str")])
             
             print("Procesando: " + juegocex["titulo"])
 

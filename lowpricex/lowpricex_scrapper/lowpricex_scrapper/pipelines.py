@@ -19,7 +19,7 @@ SEMEJANZA_MINIMA_TITULO = 0.5
 
 class ProcesadorJuegos(object):
 
-    def process_item(self, item, spider, curDate=datetime.now()): # El parámetro curDate es necesario por si estamos insertando datos antiguos con el populate
+    def process_item(self, item, spider, curDate=datetime.now().date()): # El parámetro curDate es necesario por si estamos insertando datos antiguos con el populate
 
         if not item["sku"].isdigit():
             raise DropItem("El juego %s no tiene un SKU válido" % item["titulo"])

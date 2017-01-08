@@ -25,11 +25,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>                        
               </button>
-              <a class="navbar-brand" href="#">LowPriCEX</a>
+              <a class="navbar-brand" href="/">LowPriCEX</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav">
-                <li class="{% block inicioActivo %}{% endblock %}"><a href="#">Inicio</a></li>
+                <li class="{% block inicioActivo %}{% endblock %}"><a href="/">Inicio</a></li>
 
                 <!-- SONY -->
                 <li class="dropdown">
@@ -76,12 +76,12 @@
       <!-- BÚSQUEDA -->
       <div class="row">
         {% csrf_token %}
-        <form method="GET" action="" class="form-horizontal">
+        <form method="GET" action="/buscar.html" class="form-horizontal">
           <div class="form-group">
-            <div class="col-xs-7">
+            <div class="col-xs-8 nopadding">
               <input type="text" class="form-control" id="juego" name="juego" placeholder="Juego a buscar">
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-3 nopadding">
               <select name="plataforma" class="form-control">
                 <option value="">Plataforma</option>
                 {% for plataforma in plataformas %}
@@ -89,7 +89,7 @@
                 {% endfor %}    
               </select>
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-1 nopadding">
             <button type="submit" class="btn btn-primary">Buscar</button>
             </div>
           </div>
@@ -103,7 +103,7 @@
         {% block contenido %} {% endblock %}
       </div>
     </div>
-    
+
     <footer class="footer">
       <div class="container">
         <div class="row">

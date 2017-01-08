@@ -1,0 +1,59 @@
+{% extends 'master.html' %}
+
+{% block inicioActivo %}  {% endblock %}
+{% block sonyActivo %}{% endblock %}
+{% block microsoftActivo %}{% endblock %}
+{% block nintendoActivo %}{% endblock %}
+{% block pcActivo %}{% endblock %}
+
+{% block titulo %} Búsqueda de juegos {% endblock %}
+		    
+{% block contenido %} 
+    <h3>Cadena de búsqueda: {{searchString}}</h3>
+    <hr>
+
+        <ul class="list-group">
+            {% for juego in juegos %}
+            <li class="list-group-item">
+            <div class="row">
+                <div class="col-xs-4">
+                    <img src="{{juego.portada}}" alt="{{juego.nombre}}" height="150px">
+                </div>
+
+                <div class="col-xs-5">
+                    <strong>{{juego.plataforma.abreviatura}} - {{juego.nombre}}</strong>
+                    <p><span class="glyphicon glyphicon-shopping-cart"></span><abbr title="Precio del producto en tienda" class="initialism"> Venden:</abbr> {{juego.precioVenta}} €</p>
+                    <p><span class="glyphicon glyphicon-eur"></span> <abbr title="Dinero en metálico que te dan al vender este producto" class="initialism"> Compran:</abbr> {{juego.precioCompra}} €</p>
+                    <p><span class="glyphicon glyphicon-refresh"></span> <abbr title="Dinero en vale que te dan al vender este producto" class="initialism"> Intercambian:</abbr> {{juego.precioIntercambio}} €</p>
+                </div>
+
+                <div class="col-xs-3">
+                     <a href="detalles.html/sku={{juego.sku}}" class="btn btn-success btn-md">
+                        <span class="glyphicon glyphicon-random"></span> Histórico de precios 
+                      </a>
+                </div>
+            </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <nav aria-label="...">
+        <ul class="pager">
+            {% if juegos.has_previous %}
+                <li><a href="?juego={{searchString}}&page={{ juegos.previous_page_number }}">Anterior</a></li>
+            {% else %}
+                <li class="disabled"><a href="?juego={{searchString}}&page=1">Anterior</a></li>
+            {% endif %}
+
+            Página {{ juegos.number }} de {{ juegos.paginator.num_pages }}.
+        
+            {% if juegos.has_next %}
+                <li><a href="?juego={{searchString}}&page={{ juegos.next_page_number }}">Siguiente</a></li>
+            {% else %}
+                <li class="disabled"><a href="?juego={{searchString}}&page={{ juegos.number }}">Siguiente</a></li>
+            {% endif %}
+      </ul>
+    </nav>
+{% endblock %}

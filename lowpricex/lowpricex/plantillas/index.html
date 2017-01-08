@@ -29,12 +29,18 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
 		    	<div class="carousel-caption">
 		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
-		        	<p class="btn btn-danger">Antes: <s>{{juego.precioVentaAyer}} €</s></p>
-		        	<p class="btn btn-primary">Ahora: {{juego.precioVenta}} €</p>
-		        	<p class="btn btn-success">Diferencia: {{juego.difVenta}} €</p>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-danger">Antes: <s>{{juego.precioVentaAyer}} €</s></p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-primary">Ahora: {{juego.precioVenta}} €</p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-success">Diferencia: {{juego.difVenta}} €</p>
+		        	</a>
 		      	</div>
 		    </div>
 		{% endfor %}
@@ -73,12 +79,18 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
 		    	<div class="carousel-caption">
 		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
-		        	<p class="btn btn-danger">Antes: <s>{{juego.precioCompraAyer}} €</s></p>
-		        	<p class="btn btn-primary">Ahora: {{juego.precioCompra}} €</p>
-		        	<p class="btn btn-success">Diferencia: {{juego.difCompra}} €</p>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-danger">Antes: <s>{{juego.precioCompraAyer}} €</s></p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-primary">Ahora: {{juego.precioCompra}} €</p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-success">Diferencia: {{juego.difCompra}} €</p>
+		        	</a>
 		      	</div>
 		    </div>
 		{% endfor %}
@@ -117,12 +129,18 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
 		    	<div class="carousel-caption">
 		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
-		        	<p class="btn btn-danger">Antes: <s>{{juego.precioIntercambioAyer}} €</s></p>
-		        	<p class="btn btn-primary">Ahora: {{juego.precioIntercambio}} €</p>
-		        	<p class="btn btn-success">Diferencia: {{juego.difIntercambio}} €</p>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-danger">Antes: <s>{{juego.precioIntercambioAyer}} €</s></p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-primary">Ahora: {{juego.precioIntercambio}} €</p>
+		        	</a>
+		        	<a href="detalles?sku={{juego.sku}}">
+		        		<p class="btn btn-success">Diferencia: {{juego.difIntercambio}} €</p>
+		        	</a>
 		      	</div>
 		    </div>
 		{% endfor %}

@@ -35,8 +35,9 @@ body > .container {
   padding-top: 20px;
 }
 
-code {
-  font-size: 80%;
+.nopadding {
+   padding: 5px !important;
+   margin: 0 !important;
 }
 
 

@@ -9,8 +9,6 @@ body {
   margin-bottom: 140px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   background-color: #f5f5f5;
@@ -39,4 +37,33 @@ body > .container {
 
 code {
   font-size: 80%;
+}
+
+
+body {
+  background-color: black;
+}
+.carousel-inner > .item {
+  height: 450px;
+}
+
+.carousel{
+  background-color:#b3b3b3;
+}
+
+
+.carousel-inner > .item > img {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -10%);
+  -ms-transform: translate(-50%, -10%);
+  transform: translate(-50%, -10%);
+  max-height: 300px;
+  width: auto;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none;
 }

@@ -9,16 +9,133 @@
 {% block titulo %} Índice de la aplicación {% endblock %}
 
 
+{% block contenido %} 
+	<h2>Top 5 bajada de previo de compra en tienda</h2>
+	<div id="carouselCompra" class="carousel slide" data-ride="carousel">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	    <li data-target="#carouselCompra" data-slide-to="0" class="active"></li>
+	    <li data-target="#carouselCompra" data-slide-to="1"></li>
+	    <li data-target="#carouselCompra" data-slide-to="2"></li>
+	    <li data-target="#carouselCompra" data-slide-to="3"></li>
+	    <li data-target="#carouselCompra" data-slide-to="4"></li>
+	  </ol>
 
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner" role="listbox">
+	  	{% for juego in bajanVenta %}
+	  		{% if forloop.first %}
+	  		<div class="item active">
+	  		{% else %}
+		     <div class="item">
+		    {% endif %}
+		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<div class="carousel-caption">
+		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<p class="btn btn-danger">Antes: <s>{{juego.precioVentaAyer}} €</s></p>
+		        	<p class="btn btn-primary">Ahora: {{juego.precioVenta}} €</p>
+		        	<p class="btn btn-success">Diferencia: {{juego.difVenta}} €</p>
+		      	</div>
+		    </div>
+		{% endfor %}
+	  </div>
 
+	  <!-- Left and right controls -->
+	  <a class="left carousel-control" href="#carouselCompra" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Anterior</span>
+	  </a>
+	  <a class="right carousel-control" href="#carouselCompra" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Siguiente</span>
+	  </a>
+	</div>
 
-    <!-- PRECIOS DE COMPRA QUE BAJAN -->
+	<hr>
+	<BR>
 
+	<h2>Top 5 subida de precio para venta en tienda</h2>
+	<div id="carouselVenta" class="carousel slide" data-ride="carousel">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	    <li data-target="#carouselVenta" data-slide-to="0" class="active"></li>
+	    <li data-target="#carouselVenta" data-slide-to="1"></li>
+	    <li data-target="#carouselVenta" data-slide-to="2"></li>
+	    <li data-target="#carouselVenta" data-slide-to="3"></li>
+	    <li data-target="#carouselVenta" data-slide-to="4"></li>
+	  </ol>
 
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner" role="listbox">
+	  	{% for juego in subenCompra %}
+	  		{% if forloop.first %}
+	  		<div class="item active">
+	  		{% else %}
+		     <div class="item">
+		    {% endif %}
+		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<div class="carousel-caption">
+		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<p class="btn btn-danger">Antes: <s>{{juego.precioCompraAyer}} €</s></p>
+		        	<p class="btn btn-primary">Ahora: {{juego.precioCompra}} €</p>
+		        	<p class="btn btn-success">Diferencia: {{juego.difCompra}} €</p>
+		      	</div>
+		    </div>
+		{% endfor %}
+	  </div>
 
-    <!-- PRECIOS DE VENTA QUE SUBEN -->
+	  <!-- Left and right controls -->
+	  <a class="left carousel-control" href="#carouselVenta" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Anterior</span>
+	  </a>
+	  <a class="right carousel-control" href="#carouselVenta" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Siguiente</span>
+	  </a>
+	</div>
 
+	<hr>
+	<BR>
 
+	<h2>Top 5 subida de intercambio</h2>
+	<div id="carouselIntercambio" class="carousel slide" data-ride="carousel">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	    <li data-target="#carouselIntercambio" data-slide-to="0" class="active"></li>
+	    <li data-target="#carouselIntercambio" data-slide-to="1"></li>
+	    <li data-target="#carouselIntercambio" data-slide-to="2"></li>
+	    <li data-target="#carouselIntercambio" data-slide-to="3"></li>
+	    <li data-target="#carouselIntercambio" data-slide-to="4"></li>
+	  </ol>
 
-    <!-- PRECIOS DE INTERCAMBIO QUE SUBEN -->
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner" role="listbox">
+	  	{% for juego in subenIntercambio %}
+	  		{% if forloop.first %}
+	  		<div class="item active">
+	  		{% else %}
+		     <div class="item">
+		    {% endif %}
+		    	<img height="300px" src="{{juego.portada}}" alt="Chania">
+		    	<div class="carousel-caption">
+		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<p class="btn btn-danger">Antes: <s>{{juego.precioIntercambioAyer}} €</s></p>
+		        	<p class="btn btn-primary">Ahora: {{juego.precioIntercambio}} €</p>
+		        	<p class="btn btn-success">Diferencia: {{juego.difIntercambio}} €</p>
+		      	</div>
+		    </div>
+		{% endfor %}
+	  </div>
 
+	  <!-- Left and right controls -->
+	  <a class="left carousel-control" href="#carouselIntercambio" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Anterior</span>
+	  </a>
+	  <a class="right carousel-control" href="#carouselIntercambio" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Siguiente</span>
+	  </a>
+	</div>
+{% endblock %}

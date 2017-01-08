@@ -30,5 +30,5 @@ def index(request):
     subenVenta = juegosCambian.order_by('-difVenta')[:5]
     subenIntercambio = juegosCambian.order_by('-difIntercambio')[:5]
     
-    return render(request, 'index.html', {'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
+    return render(request, 'index.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                           'bajanCompra':bajanCompra, 'subenVenta':subenVenta, 'subenIntercambio':subenIntercambio})

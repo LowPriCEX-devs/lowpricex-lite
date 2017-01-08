@@ -79,10 +79,10 @@
         {% csrf_token %}
         <form method="GET" action="/buscar.html" class="form-horizontal">
           <div class="form-group">
-            <div class="col-xs-8 nopadding">
+            <div class="col-sm-6 col-xs-12">
               <input type="text" class="form-control" id="juego" name="juego" placeholder="Juego a buscar">
             </div>
-            <div class="col-xs-3 nopadding">
+            <div class="col-sm-3 col-xs-12">
               <select name="plataforma" class="form-control">
                 <option value="">Plataforma</option>
                 {% for plataforma in plataformas %}
@@ -90,8 +90,8 @@
                 {% endfor %}    
               </select>
             </div>
-            <div class="col-xs-1 nopadding">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+            <div class="col-sm-3 col-xs-12">
+              <button type="submit"class="btn btn-primary btn-block">Buscar</button>
             </div>
           </div>
         </form>

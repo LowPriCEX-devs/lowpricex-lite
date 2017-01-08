@@ -57,7 +57,7 @@ body {
 }
 
 
-.carousel-inner > .item > img {
+.carousel-inner > .item > a > img {
   position: absolute;
   top: 10%;
   left: 50%;
@@ -66,6 +66,15 @@ body {
   transform: translate(-50%, -10%);
   max-height: 300px;
   width: auto;
+}
+
+.carousel-inner > .item > div > h4 > a {
+  color:white;
+}
+
+
+.navbar-nav > li >a{
+  color:black;
 }
 
 .carousel-control.left,

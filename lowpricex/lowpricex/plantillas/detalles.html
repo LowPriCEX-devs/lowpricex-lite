@@ -73,10 +73,57 @@
             </dl>
         </div>
     </div>
-
-    <div class="row col-sm-8 col-sm-offset-2 col-xs-12" >
+    <div class="row col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-xs-12" >
         <canvas id="myChart"></canvas>
+        
+        <hr>
     </div>
+
+    
+
+
+    <div class="row col-md-4 col-md-offset-4">
+      <h2>Recomendados para este juego</h2>
+      <div id="carouselCompra" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#carouselCompra" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselCompra" data-slide-to="1"></li>
+          <li data-target="#carouselCompra" data-slide-to="2"></li>
+          <li data-target="#carouselCompra" data-slide-to="3"></li>
+          <li data-target="#carouselCompra" data-slide-to="4"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          {% for juego in juegosRecomendados %}
+            {% if forloop.first %}
+            <div class="item active">
+            {% else %}
+             <div class="item">
+            {% endif %}
+              <a href="/detalles.html?sku={{juego.juego.sku}}">
+                <img height="300px" src="{{juego.juego.portada}}" alt="{{juego.nombre}}">
+              </a>
+              <div class="carousel-caption">
+                  <h4><a href="/detalles.html?sku={{juego.juego.sku}}">{{juego.juego.nombre}} - {{juego.juego.plataforma.abreviatura}}</a></h4>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#carouselCompra" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Anterior</span>
+        </a>
+        <a class="right carousel-control" href="#carouselCompra" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Siguiente</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
     <script>
         var ctx = document.getElementById("myChart");

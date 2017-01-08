@@ -3,7 +3,10 @@ from lowpricex_app.models import Plataforma, Juego, HistoricoJuego
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import timedelta
-from django.db.models import ExpressionWrapper, FloatField, F
+from django.db.models import ExpressionWrapper, FloatField, F,  Q
+from itertools import chain
+from operator import itemgetter
+import datetime
 
 def index(request):
     # Obtenemos las plataformas de búsqueda
@@ -82,7 +85,7 @@ def detalles(request):
     
     juego = get_object_or_404(Juego, pk=request.GET.get('sku'))
     
-    
+    # Datos para la gráfica de precios
     hist = HistoricoJuego.objects.filter(juego=juego.sku)
     preciosVenta = []
     preciosCompra = []
@@ -98,11 +101,35 @@ def detalles(request):
     preciosCompra = (', '.join('"' + str(item) + '"' for item in preciosCompra))
     preciosIntercambio = (', '.join('"' + str(item) + '"' for item in preciosIntercambio))
     fechas = (', '.join('"' + str(item) + '"' for item in fechas))
+
+    # Sistema de recomendación
+    desarrolladores = juego.desarrolladores.all().values_list('pk', flat=True)
+    publishers = juego.publishers.all().values_list('pk', flat=True)
+    keywords = juego.keywords.all().values_list('pk', flat=True)
+    generos = juego.generos.all().values_list('pk', flat=True)
+    temas = juego.temas.all().values_list('pk', flat=True)
+
+    juegosDevRecomendados = Juego.objects.filter(~Q(pk=juego.sku), ~Q(nombre=juego.nombre), plataforma=juego.plataforma, desarrolladores__in=desarrolladores)
+    juegosPublishersRecomendados = Juego.objects.filter(~Q(pk=juego.sku), ~Q(nombre=juego.nombre), plataforma=juego.plataforma, publishers__in=publishers)
+    juegosKeywordsRecomendados = Juego.objects.filter(~Q(pk=juego.sku), ~Q(nombre=juego.nombre), plataforma=juego.plataforma, keywords__in=keywords)
+    juegosGenerosRecomendados = Juego.objects.filter(~Q(pk=juego.sku), ~Q(nombre=juego.nombre), plataforma=juego.plataforma, generos__in=generos)
+    juegosTemasRecomendados = Juego.objects.filter(~Q(pk=juego.sku), ~Q(nombre=juego.nombre), plataforma=juego.plataforma, temas__in=temas)
     
-    print(fechas)
-    
-    
+    result_list = list(chain(juegosDevRecomendados, juegosPublishersRecomendados, juegosKeywordsRecomendados, juegosGenerosRecomendados, juegosTemasRecomendados))
+    juegosRecomendar = list(set(result_list))
+
+    fitnessList=[]
+    for juegoRec in juegosRecomendar:
+        fitness=0.0
+        fitness += len(set(desarrolladores).intersection(juegoRec.desarrolladores.all().values_list('pk', flat=True))) \
+                    + len(set(publishers).intersection(juegoRec.publishers.all().values_list('pk', flat=True))) \
+                    + len(set(keywords).intersection(juegoRec.keywords.all().values_list('pk', flat=True))) \
+                    + len(set(generos).intersection(juegoRec.generos.all().values_list('pk', flat=True))) \
+                    + len(set(temas).intersection(juegoRec.temas.all().values_list('pk', flat=True)))
+        fitnessList.append({'juego':juegoRec, 'fitness':fitness})
+        
+    juegosRecomendados = sorted(fitnessList, key=itemgetter('fitness'), reverse=True)[:5]
 
     return render(request, 'detalles.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                            'juego': juego, 'preciosVenta':preciosVenta, 'preciosCompra':preciosCompra, 'preciosIntercambio':preciosIntercambio, \
-                                           'fechas':fechas})
+                                           'fechas':fechas, 'juegosRecomendados':juegosRecomendados})

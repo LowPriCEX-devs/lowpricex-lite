@@ -29,9 +29,11 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	<a href="/detalles.html?sku={{juego.sku}}">
+		    		<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	</a>
 		    	<div class="carousel-caption">
-		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<h4><a href="/detalles.html?sku={{juego.sku}}">{{juego.nombre}} - {{juego.plataforma.abreviatura}}</a></h4>
 		        	<a href="/detalles.html?sku={{juego.sku}}">
 		        		<p class="btn btn-danger">Antes: <s>{{juego.precioVentaAyer}} €</s></p>
 		        	</a>
@@ -79,9 +81,11 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	<a href="/detalles.html?sku={{juego.sku}}">
+		    		<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	</a>
 		    	<div class="carousel-caption">
-		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<h4><a href="/detalles.html?sku={{juego.sku}}">{{juego.nombre}} - {{juego.plataforma.abreviatura}}</a></h4>
 		        	<a href="/detalles.html?sku={{juego.sku}}">
 		        		<p class="btn btn-danger">Antes: <s>{{juego.precioCompraAyer}} €</s></p>
 		        	</a>
@@ -129,9 +133,11 @@
 	  		{% else %}
 		     <div class="item">
 		    {% endif %}
-		    	<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	<a href="/detalles.html?sku={{juego.sku}}">
+		    		<img height="300px" src="{{juego.portada}}" alt="{{juego.nombre}}">
+		    	</a>
 		    	<div class="carousel-caption">
-		        	<h4>{{juego.nombre}} - {{juego.plataforma.abreviatura}}</h4>
+		        	<h4><a href="/detalles.html?sku={{juego.sku}}">{{juego.nombre}} - {{juego.plataforma.abreviatura}}</a></h4>
 		        	<a href="/detalles.html?sku={{juego.sku}}">
 		        		<p class="btn btn-danger">Antes: <s>{{juego.precioIntercambioAyer}} €</s></p>
 		        	</a>

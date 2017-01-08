@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from . import secret_settings
+RUTA_PROYECTO = os.path.dirname(os.path.realpath(__file__))
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +28,7 @@ SECRET_KEY = secret_settings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "LOWPRICEX_DEPLOYMENT" not in os.environ
 
-ALLOWED_HOSTS = ["lowpricex.info", "www.lowpricex.info"]
+ALLOWED_HOSTS = ["lowpricex.info", "www.lowpricex.info", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'lowpricex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(RUTA_PROYECTO,'plantillas'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,9 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -116,3 +117,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(RUTA_PROYECTO,'static'),
+)

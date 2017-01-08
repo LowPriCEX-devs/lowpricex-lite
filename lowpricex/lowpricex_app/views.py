@@ -30,9 +30,9 @@ def index(request):
                         annotate(precioIntercambioAyer = ExpressionWrapper(F('historicojuego__precioIntercambio'), output_field=FloatField()))
                         
 
-    bajanVenta = juegosCambian.order_by('difVenta')[:5]
-    subenCompra = juegosCambian.order_by('-difCompra')[:5]
-    subenIntercambio = juegosCambian.order_by('-difIntercambio')[:5]
+    bajanVenta = juegosCambian.filter(precioVenta__gt=0.0).order_by('difVenta')[:5]
+    subenCompra = juegosCambian.filter(precioCompra__gt=0.0).order_by('-difCompra')[:5]
+    subenIntercambio = juegosCambian.filter(precioIntercambio__gt=0.0).order_by('-difIntercambio')[:5]
     
     return render(request, 'index.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                           'subenCompra':subenCompra, 'bajanVenta':bajanVenta, 'subenIntercambio':subenIntercambio})

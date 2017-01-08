@@ -1,11 +1,5 @@
 {% extends 'master.html' %}
 
-{% block inicioActivo %}  {% endblock %}
-{% block sonyActivo %}{% endblock %}
-{% block microsoftActivo %}{% endblock %}
-{% block nintendoActivo %}{% endblock %}
-{% block pcActivo %}{% endblock %}
-
 {% block titulo %} Búsqueda de juegos {% endblock %}
 		    
 {% block contenido %} 
@@ -28,7 +22,7 @@
                 </div>
 
                 <div class="col-xs-3">
-                     <a href="detalles.html/sku={{juego.sku}}" class="btn btn-success btn-md">
+                     <a href="/detalles.html?sku={{juego.sku}}" class="btn btn-success btn-md">
                         <span class="glyphicon glyphicon-random"></span> Histórico de precios 
                       </a>
                 </div>

@@ -1,0 +1,140 @@
+{% extends 'master.html' %}
+
+{% block titulo %} Detalles de juego {% endblock %}
+		    
+{% block contenido %} 
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-3 col-xs-12">
+            <img width="100%" src="{{juego.portada}}" alt="">
+            <p class="text-muted img-responsive">Actualizado: {{juego.actualizado|date:"d/m/Y"}}</p>
+        </div>
+
+        <div class="col-sm-7 col-xs-12">
+            <h3>{{juego.nombre}}</h3>
+            <dl class="dl-horizontal">
+              <dt>Plataforma</dt>
+              <dd>{{juego.plataforma.nombre}}</dd>
+
+            {% if juego.fechaSalida %}
+              <dt>Fecha de salida</dt>
+              <dd>{{juego.fechaSalida}}</dd>
+            {% endif %}
+
+            {% if juego.categoria %}
+              <dt>Categoría</dt>
+              <dd>{{juego.categoria}}</dd>
+            {% endif %}
+
+            {% if juego.desarrolladores %}
+              <dt>Desarrolladores</dt>
+              <dd>{{juego.desarrolladores.all|join:", "}}</dd>
+            {% endif %}
+
+            {% if juego.publishers %}
+              <dt>Publishers</dt>
+              <dd>{{juego.publishers.all|join:", "}}</dd>
+            {% endif %}
+
+            {% if juego.keywords %}
+              <dt>Palabras clave</dt>
+              <dd>{{juego.keywords.all|join:", "}}</dd>
+            {% endif %}
+
+            {% if juego.generos %}
+              <dt>Géneros</dt>
+              <dd>{{juego.generos.all|join:", "}}</dd>
+            {% endif %}
+
+            {% if juego.temas %}
+              <dt>Temáticas</dt>
+              <dd>{{juego.temas.all|join:", "}}</dd>
+            {% endif %}
+            <div class="alert alert-success alert-trim" role="alert">
+                <dt>
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    <abbr title="Precio del producto en tienda" class="initialism"> Venden:</abbr>
+                </dt>
+                <dd> {{juego.precioVenta}} €</dd>
+
+
+                <dt>
+                    <span class="glyphicon glyphicon-eur"></span>
+                    <abbr title="Dinero en metálico que te dan al vender este producto" class="initialism"> Compran:</abbr>
+                </dt>
+                <dd>{{juego.precioCompra}} €</dd>
+
+
+                <dt>
+                    <span class="glyphicon glyphicon-refresh"></span> 
+                    <abbr title="Dinero en vale que te dan al vender este producto" class="initialism"> Intercambian:</abbr>
+                </dt>
+                <dd>{{juego.precioIntercambio}} €</dd>
+            </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="row col-xs-8 col-xs-offset-2" >
+        <canvas id="myChart" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById("myChart");
+        Chart.defaults.global.hover.mode = 'nearest';
+        var data = {
+            // Aquí van las fechas, que las cogeremos de 
+            labels: [ {{fechas|safe}} ] ,
+            datasets: [
+              {
+                label: "Precios de Venta",
+                backgroundColor: "rgba(255, 255, 255, 0.0)",
+                pointBackgroundColor: "rgba(255, 0, 0, 1)", 
+                pointRadius:4,
+                pointHitRadius:10, 
+                borderColor: "rgba(255, 0, 0, 1)",
+                borderWidth: 2, 
+                data: [{{preciosVenta|safe}}]
+              },
+              {
+                label: "Precios de Compra",
+                backgroundColor: "rgba(255, 255, 255, 0.0)",
+                pointBackgroundColor: "rgba(75, 192, 192, 1)", 
+                pointRadius:4,
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 2, 
+                data: [{{preciosCompra|safe}}]
+              },
+              {
+                label: "Precios de Intercambio",
+                backgroundColor: "rgba(255, 255, 255, 0.0)",
+                pointBackgroundColor: "rgba(255, 159, 64, 1)", 
+                pointRadius:4,
+                borderColor: "rgba(255, 159, 64, 1)",
+                borderWidth: 2, 
+                data: [{{preciosIntercambio|safe}}]
+              },
+
+            ]
+          };
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+
+            options: {
+                title: {
+                    display: true,
+                    text: 'Histórico de precios de {{juego.nombre}}'
+                },
+                hover: {
+                    // Overrides the global setting
+                    mode: 'index'
+                },
+                global: {
+                 responsive: true,
+                 maintainAspectRatio: true
+              }
+            }
+        });
+        </script>
+{% endblock %}

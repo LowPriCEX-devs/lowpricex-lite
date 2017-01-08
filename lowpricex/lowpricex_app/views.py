@@ -1,6 +1,6 @@
 #encoding:utf-8
-from lowpricex_app.models import Plataforma, Juego
-from django.shortcuts import render
+from lowpricex_app.models import Plataforma, Juego, HistoricoJuego
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import timedelta
 from django.db.models import ExpressionWrapper, FloatField, F
@@ -70,3 +70,39 @@ def buscar(request):
 
     return render(request, 'buscar.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                            'juegos': juegos, 'searchString':juego})
+    
+def detalles(request):
+    # Obtenemos las plataformas de búsqueda
+    plataformas = Plataforma.objects.all()
+    
+    nintendo = plataformas.filter(nombre__contains='Nintendo')
+    sony = plataformas.filter(nombre__contains='PlayStation')
+    microsoft = plataformas.filter(nombre__contains='Xbox')
+    pc = plataformas.filter(nombre='PC')
+    
+    juego = get_object_or_404(Juego, pk=request.GET.get('sku'))
+    
+    
+    hist = HistoricoJuego.objects.filter(juego=juego.sku)
+    preciosVenta = []
+    preciosCompra = []
+    preciosIntercambio = []
+    fechas=[] 
+    for h in hist:
+        preciosVenta.append(h.precioVenta)
+        preciosCompra.append(h.precioCompra)
+        preciosIntercambio.append(h.precioIntercambio)
+        fechas.append(h.fecha.strftime('%d/%m/%Y'))
+        
+    preciosVenta = (', '.join('"' + str(item) + '"' for item in preciosVenta))
+    preciosCompra = (', '.join('"' + str(item) + '"' for item in preciosCompra))
+    preciosIntercambio = (', '.join('"' + str(item) + '"' for item in preciosIntercambio))
+    fechas = (', '.join('"' + str(item) + '"' for item in fechas))
+    
+    print(fechas)
+    
+    
+
+    return render(request, 'detalles.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
+                                           'juego': juego, 'preciosVenta':preciosVenta, 'preciosCompra':preciosCompra, 'preciosIntercambio':preciosIntercambio, \
+                                           'fechas':fechas})

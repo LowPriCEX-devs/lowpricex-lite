@@ -1,5 +1,5 @@
 #encoding:utf-8
-from lowpricex_app.models import Plataforma, Juego, HistoricoJuego, JuegoDetalles
+from lowpricex_app.models import Plataforma, Juego, HistoricoJuego, JuegoDetalles, ImagenJuego, VideoJuego
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import timedelta
@@ -137,9 +137,12 @@ def detalles(request):
         
     juegosRecomendados = sorted(fitnessList, key=itemgetter('fitness'), reverse=True)[:5]
 
+    imagenesJuego = ImagenJuego.objects.filter(juego=juego.sku)
+    videosJuego = VideoJuego.objects.filter(juego=juego.sku)
+
     return render(request, 'detalles.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                            'juego': juego, 'preciosVenta':preciosVenta, 'preciosCompra':preciosCompra, 'preciosIntercambio':preciosIntercambio, \
-                                           'fechas':fechas, 'juegosRecomendados':juegosRecomendados, 'detalles':detalles})
+                                           'fechas':fechas, 'juegosRecomendados':juegosRecomendados, 'detalles':detalles, 'imagenesJuego':imagenesJuego, 'videosJuego':videosJuego})
     
 def buscar_avanzado(request):
     # Obtenemos las plataformas de búsqueda

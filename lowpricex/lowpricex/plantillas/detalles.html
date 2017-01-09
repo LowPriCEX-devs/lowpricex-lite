@@ -95,10 +95,54 @@
         <hr>
     </div>
 
-    
+  
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Imágenes del juego</h2>
+        <div id="carouselImagenes" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            {% for imagen in imagenesJuego %}
+              {% if forloop.first %}
+              <li data-target="#carouselImagenes" data-slide-to="0" class="active"></li>
+              {% else %}
+              <li data-target="#carouselImagenes" data-slide-to="{{forloop.counter0}}"></li>
+              {% endif %}
+            {% endfor %}
+          </ol>
 
+          <div class="carousel-inner" role="listbox">
+            {% for imagen in imagenesJuego %}
+              {% if forloop.first %}
+              <div class="item active">
+              {% else %}
+              <div class="item">
+              {% endif %}
+                <a href="{{imagen.urlImagen}}" target="_blank">
+                  <img src="{{imagen.urlImagen}}">
+                </a>
+              </div>
+            {% endfor %}
+          </div>
 
-    <div class="row col-md-4 col-md-offset-4">
+          <a class="left carousel-control" href="#carouselImagenes" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+          </a>
+          <a class="right carousel-control" href="#carouselImagenes" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+          </a>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+
+    <div class="row">
+    <div class="col-md-4 col-md-offset-4">
       <h2>Recomendados para este juego</h2>
       <div id="carouselCompra" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
@@ -139,6 +183,7 @@
         </a>
       </div>
     </div>
+  </div>
   </div>
 
     <script>

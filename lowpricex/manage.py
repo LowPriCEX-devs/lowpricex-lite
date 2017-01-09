@@ -30,6 +30,10 @@ if __name__ == "__main__":
         #Load the data into the database
         from populateDatabase import populateDatabase
         populateDatabase()
+    elif argv == 'loadDetails':
+        from populateDatabase import populateDetails
+        populateDetails()
+        
     elif argv == 'performScraping':
         #Set the scraping and load it to the database
         pass

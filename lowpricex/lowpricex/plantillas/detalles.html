@@ -49,6 +49,7 @@
               <dt>Temáticas</dt>
               <dd>{{juego.temas.all|join:", "}}</dd>
             {% endif %}
+
             <div class="alert alert-success alert-trim" role="alert">
                 <dt>
                     <span class="glyphicon glyphicon-shopping-cart"></span>
@@ -73,6 +74,21 @@
             </dl>
         </div>
     </div>
+
+    {% if detalles %}
+    <div class="row col-xs-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Descripción del juego</div>
+        <div class="panel-body">
+          <small>{{detalles.detalle|safe}}</small>
+        </div>
+      </div>
+      <hr>
+
+    </div>
+
+    {% endif %}
+
     <div class="row col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-xs-12" >
         <canvas id="myChart"></canvas>
         

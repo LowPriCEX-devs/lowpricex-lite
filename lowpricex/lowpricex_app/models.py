@@ -98,6 +98,10 @@ class HistoricoJuego(models.Model):
     
     class Meta:
         ordering = ('fecha', )
+        
+class JuegoDetalles(models.Model):
+    juego = models.ForeignKey(Juego)
+    detalle = models.TextField()
 
 
 class ImagenJuego(models.Model):

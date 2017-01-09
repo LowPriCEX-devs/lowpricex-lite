@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from lowpricex_app import views
 
@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^index.html/$', views.index),
     url(r'^buscar.html/$', views.buscar),
-    url(r'^detalles.html/$', views.detalles),        
+    url(r'^detalles.html/$', views.detalles),
+    url(r'^search/', include('haystack.urls')),
+    url(r'^busqueda_avanzada.html/$', views.buscar_avanzado),         
 ]

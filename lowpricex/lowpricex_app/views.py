@@ -1,12 +1,12 @@
 #encoding:utf-8
-from lowpricex_app.models import Plataforma, Juego, HistoricoJuego
+from lowpricex_app.models import Plataforma, Juego, HistoricoJuego, JuegoDetalles
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import timedelta
 from django.db.models import ExpressionWrapper, FloatField, F,  Q
 from itertools import chain
 from operator import itemgetter
-import datetime
+from haystack.query import SearchQuerySet
 
 def index(request):
     # Obtenemos las plataformas de búsqueda
@@ -117,6 +117,10 @@ def detalles(request):
     
     result_list = list(chain(juegosDevRecomendados, juegosPublishersRecomendados, juegosKeywordsRecomendados, juegosGenerosRecomendados, juegosTemasRecomendados))
     juegosRecomendar = list(set(result_list))
+    
+    detalles = None
+    if JuegoDetalles.objects.filter(juego=juego).exists():
+        detalles = JuegoDetalles.objects.get(juego=juego)
 
     fitnessList=[]
     for juegoRec in juegosRecomendar:
@@ -132,4 +136,41 @@ def detalles(request):
 
     return render(request, 'detalles.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
                                            'juego': juego, 'preciosVenta':preciosVenta, 'preciosCompra':preciosCompra, 'preciosIntercambio':preciosIntercambio, \
-                                           'fechas':fechas, 'juegosRecomendados':juegosRecomendados})
+                                           'fechas':fechas, 'juegosRecomendados':juegosRecomendados, 'detalles':detalles})
+    
+def buscar_avanzado(request):
+    # Obtenemos las plataformas de búsqueda
+    plataformas = Plataforma.objects.all()
+    
+    nintendo = plataformas.filter(nombre__contains='Nintendo')
+    sony = plataformas.filter(nombre__contains='PlayStation')
+    microsoft = plataformas.filter(nombre__contains='Xbox')
+    pc = plataformas.filter(nombre='PC')
+    
+    page = request.GET.get('page')
+    juego = request.GET.get('juego')
+    plataforma = request.GET.get('plataforma')
+    
+    if juego == None:
+        juego = ""
+        
+    sqs = SearchQuerySet().filter(detalles=juego)
+
+    paginator = Paginator(sqs, 25)
+
+    try:
+        juegos = paginator.page(page)
+    except PageNotAnInteger:
+        juegos = paginator.page(1)
+    except EmptyPage:
+        juegos = paginator.page(paginator.num_pages)
+    
+    listaSKU = [result.sku for result in juegos]
+
+    if plataforma != None and plataforma != "": 
+        juegosPaginados = Juego.objects.filter(pk__in=listaSKU, plataforma=Plataforma.objects.get(pk=plataforma))
+    else:
+        juegosPaginados = Juego.objects.filter(pk__in=listaSKU)
+
+    return render(request, 'busqueda_avanzada.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
+                                           'juegos': juegos, 'searchString':juego, 'juegosPaginados':juegosPaginados})

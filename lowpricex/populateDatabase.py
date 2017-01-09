@@ -5,7 +5,7 @@ import csv
 from datetime                       import datetime
 from lowpricex_scrapper.items       import JuegoCEX
 from lowpricex_scrapper.pipelines   import ProcesadorJuegos
-from lowpricex_app.models           import Plataforma, Categoria, Juego, Tema, Keyword, Genero, Empresa
+from lowpricex_app.models           import Plataforma, Categoria, Juego, Tema, Keyword, Genero, Empresa, JuegoDetalles
 from scrapy.exceptions              import DropItem
 
 path = "data"
@@ -122,6 +122,18 @@ def populateCrawlings(file):
     print("Games inserted: " + str(Juego.objects.count()))
     print("---------------------------------------------------------")
 
+def populateDetails():
+    print("Loading details....")
+    
+    with open(path+"/detalles.csv", "rt") as csvfile:
+        detailsReader = csv.reader(csvfile, delimiter=',',  quotechar='"')
+        next(detailsReader, None)
+        for row in detailsReader:
+            JuegoDetalles(juego=Juego.objects.get(pk=row[0]), detalle=row[1]).save()
+
+    print("Details inserted: " + str(JuegoDetalles.objects.count()))
+    print("---------------------------------------------------------")
+    
     
 #Función que carga los datos
 def populateDatabase():

@@ -1,0 +1,2 @@
+{{object.detalles}}
+{{object.sku}}

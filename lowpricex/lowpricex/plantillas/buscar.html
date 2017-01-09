@@ -35,17 +35,17 @@
     <nav aria-label="...">
         <ul class="pager">
             {% if juegos.has_previous %}
-                <li><a href="?juego={{searchString}}&page={{ juegos.previous_page_number }}">Anterior</a></li>
+                <li><a href="?juego={{searchString}}&plataforma={{plataformSel}}&page={{ juegos.previous_page_number }}">Anterior</a></li>
             {% else %}
-                <li class="disabled"><a href="?juego={{searchString}}&page=1">Anterior</a></li>
+                <li class="disabled"><a>Anterior</a></li>
             {% endif %}
 
             Página {{ juegos.number }} de {{ juegos.paginator.num_pages }}.
         
             {% if juegos.has_next %}
-                <li><a href="?juego={{searchString}}&page={{ juegos.next_page_number }}">Siguiente</a></li>
+                <li><a href="?juego={{searchString}}&plataforma={{plataformSel}}&page={{ juegos.next_page_number }}">Siguiente</a></li>
             {% else %}
-                <li class="disabled"><a href="?juego={{searchString}}&page={{ juegos.number }}">Siguiente</a></li>
+                <li class="disabled"><a>Siguiente</a></li>
             {% endif %}
       </ul>
     </nav>

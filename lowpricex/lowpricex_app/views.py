@@ -57,7 +57,10 @@ def buscar(request):
     if juego == None:
         juego = ""
         
-    if plataforma != None and plataforma != "": 
+    if plataforma == None:
+        plataforma = ""
+        
+    if plataforma != "": 
         juegos = Juego.objects.filter(nombre__icontains=juego, plataforma=Plataforma.objects.get(pk=plataforma))
     else:
         juegos = Juego.objects.filter(nombre__icontains=juego)
@@ -72,7 +75,7 @@ def buscar(request):
         juegos = paginator.page(paginator.num_pages)
 
     return render(request, 'buscar.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
-                                           'juegos': juegos, 'searchString':juego})
+                                           'juegos': juegos, 'searchString':juego, 'plataformSel':plataforma})
     
 def detalles(request):
     # Obtenemos las plataformas de búsqueda
@@ -154,6 +157,9 @@ def buscar_avanzado(request):
     if juego == None:
         juego = ""
         
+    if plataforma == None:
+        plataforma = ""
+        
     sqs = SearchQuerySet().filter(detalles=juego)
 
     paginator = Paginator(sqs, 25)
@@ -167,10 +173,10 @@ def buscar_avanzado(request):
     
     listaSKU = [result.sku for result in juegos]
 
-    if plataforma != None and plataforma != "": 
+    if plataforma != "": 
         juegosPaginados = Juego.objects.filter(pk__in=listaSKU, plataforma=Plataforma.objects.get(pk=plataforma))
     else:
         juegosPaginados = Juego.objects.filter(pk__in=listaSKU)
 
     return render(request, 'busqueda_avanzada.html', {'plataformas':plataformas.order_by('nombre'), 'nintendo':nintendo, 'sony':sony, 'microsoft':microsoft, 'pc':pc, \
-                                           'juegos': juegos, 'searchString':juego, 'juegosPaginados':juegosPaginados})
+                                           'juegos': juegos, 'searchString':juego, 'juegosPaginados':juegosPaginados, 'plataformSel':plataforma})

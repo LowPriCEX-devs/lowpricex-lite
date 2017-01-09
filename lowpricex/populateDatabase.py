@@ -129,7 +129,8 @@ def populateDetails():
         detailsReader = csv.reader(csvfile, delimiter=',',  quotechar='"')
         next(detailsReader, None)
         for row in detailsReader:
-            JuegoDetalles(juego=Juego.objects.get(pk=row[0]), detalle=row[1]).save()
+            if Juego.objects.filter(pk=row[0]).exists():
+                JuegoDetalles(juego=Juego.objects.get(pk=row[0]), detalle=row[1]).save()
 
     print("Details inserted: " + str(JuegoDetalles.objects.count()))
     print("---------------------------------------------------------")

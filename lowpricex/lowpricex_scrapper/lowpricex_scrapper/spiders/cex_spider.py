@@ -7,12 +7,13 @@ categorias = [
     (1001, "PlayStation 4"),
     (977, "Nintendo 3DS"),
     (834, "Nintendo DS"),
-    (830, "PC"),
+    (1031, "Nintendo Switch"),
     (821, "PlayStation 3"),
     (990, "PlayStation Vita"),
     (862, "PSP"),
     (831, "Wii"),
     (996, "Wii U"),
+    (1031, "Nintendo Switch"),
     (827, "Xbox 360"),
     (1002, "Xbox One")
 ]
@@ -63,8 +64,7 @@ class CexSpider(scrapy.Spider):
                 data["precio_intercambio"] = div_precios.re(r"Intercambiamos.*?:.*?€(\d*\.\d*)")[0]
             except:
                 data["precio_intercambio"] = -1
-            
+
             yield data
 
         yield scrapy.Request("https://es.webuy.com/search/index.php?catid=%s&page=%d&counter=%s" % (catId, int(page)+1, page), callback=self.parse)
-

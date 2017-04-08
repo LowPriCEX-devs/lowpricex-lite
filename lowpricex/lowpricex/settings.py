@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = secret_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "LOWPRICEX_DEPLOYMENT" not in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = ["lowpricex.info", "www.lowpricex.info", "localhost", "127.0.0.1"]
 
@@ -34,22 +34,12 @@ ALLOWED_HOSTS = ["lowpricex.info", "www.lowpricex.info", "localhost", "127.0.0.1
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
-    'haystack',
     'lowpricex_app',
 ]
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,46 +74,17 @@ WSGI_APPLICATION = 'lowpricex.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
 DATABASES = secret_settings.DATABASES_DATA
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
-
 LANGUAGE_CODE = 'es-ES'
-
 TIME_ZONE = 'Europe/Madrid'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(RUTA_PROYECTO,'static'),

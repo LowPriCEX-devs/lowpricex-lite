@@ -26,17 +26,13 @@ if __name__ == "__main__":
     
     argv = sys.argv[1]
 
-    if argv == 'loadData':
+    if argv == 'loadPlatforms':
         #Load the data into the database
-        from populateDatabase import populateDatabase
-        populateDatabase()
-    elif argv == 'loadDetails':
-        from populateDatabase import populateDetails
-        populateDetails()
-        
-    elif argv == 'performScraping':
-        #Set the scraping and load it to the database
-        pass
+        from populateDatabase import populatePlatforms
+        populatePlatforms()
+    elif argv == 'loadCsvs':
+        from populateDatabase import populateCsvs
+        populateCsvs()
     else:
         execute_from_command_line(sys.argv)
 

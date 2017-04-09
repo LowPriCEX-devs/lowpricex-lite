@@ -43,10 +43,15 @@ def populateCsvs():
 
             i = 0
             for row in fileReader:
+                i += 1
+
                 juegocex = JuegoCEX(titulo=row[headers.index("titulo")], sku=row[headers.index("sku")], img_caratula=row[headers.index("img_caratula")], 
                                                 precio_venta=row[headers.index("precio_venta")], precio_compra=row[headers.index("precio_compra")], 
                                                 precio_intercambio=row[headers.index("precio_intercambio")], categoria_id=row[headers.index("categoria_id")], 
                                                 categoria_str=row[headers.index("categoria_str")])
+
+                if juegocex["categoria_str"] == "PC":
+                    continue
 
                 try:
                     procesador.process_item(juegocex, None, fecha)
@@ -55,8 +60,7 @@ def populateCsvs():
                 except Exception as e:
                     print("Excepción no controlada:")
                     print(e)
-
-                i += 1
+                
                 if i % 100 == 0:
                     print("%s | Procesados %d juegos" % (str(fecha), i))
             

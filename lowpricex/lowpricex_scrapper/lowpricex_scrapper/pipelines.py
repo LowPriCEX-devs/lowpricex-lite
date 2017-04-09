@@ -4,7 +4,7 @@ django.setup()
 import requests
 import re
 
-from datetime               import datetime
+import datetime
 from logging                import debug, info, warning, error
 from lowpricex_app.models   import *
 
@@ -13,20 +13,22 @@ try:
 except:
     from .api_keys      import KEY_IGDB_API
 
+from scrapy.exceptions import DropItem
+
 
 class ProcesadorJuegos(object):
 
-    def process_item(self, item, spider, curDate=datetime.now().date()): # El parámetro curDate es necesario por si estamos insertando datos antiguos con el populate
+    def process_item(self, item, spider, curDate=datetime.date.today()): # El parámetro curDate es necesario por si estamos insertando datos antiguos con el populate
 
         # Si el juego ya está en la BD
         if Juego.objects.filter(pk=item["sku"]).exists():
             juegoGuardado = Juego.objects.get(pk=item["sku"])
-            juegoGuardado.portadaCEX = item["img_caratula"]
+            juegoGuardado.portadaCEX = getImagenCEX(item["img_caratula"])
             juegoGuardado.save()
 
             if not juegoGuardado.actualizado < curDate:
                 return item
-                # Si en esta pasada ya se ha actualizado, saltar este juego (SKU repetido en CEX)
+                # Si en esta pasada ya se ha actualizado, saltar este juego (SKU repetido en CEX, no debería pasar...)
 
             pVenta = float(item["precio_venta"])
             pCompra = float(item["precio_compra"])
@@ -91,12 +93,16 @@ def insertarHistorico(fecha, precioVenta, precioIntercambio, precioCompra, juego
 def insertarJuegoBD(juegoCex, infoIgdb, curDate):
     juego = Juego()
 
-    juego.sku = int(juegoCex["sku"])
+    juego.sku = juegoCex["sku"]
+
+    if juego.sku == "":
+        raise DropItem
+
     juego.plataforma = Plataforma.objects.get(pk=juegoCex["categoria_id"])
     juego.nombre = juegoCex["titulo"]
-    juego.portadaCEX = "https://es.webuy.com" + juegoCex["img_caratula"]
+    juego.portadaCEX = getImagenCEX(juegoCex["img_caratula"])
 
-    if infoIgdb != None and infoIgdb["cover"] is not None:
+    if infoIgdb != None and "cover" in infoIgdb and infoIgdb["cover"] is not None:
         juego.portada = "https://images.igdb.com/igdb/image/upload/%s.png" % infoIgdb["cover"]["cloudinary_id"]
 
     pVenta = float(juegoCex["precio_venta"])
@@ -113,3 +119,6 @@ def insertarJuegoBD(juegoCex, infoIgdb, curDate):
     HistoricoJuego(juego=juego, fecha=curDate, precioVenta=pVenta, precioCompra=pCompra, precioIntercambio=pIntercambio).save()
 
     info("Añadido nuevo juego: %s (SKU: %s)" % (juego.nombre, juego.sku))
+
+def getImagenCEX(scrapped):
+    return "https://es.webuy.com" + scrapped[:-5] + "l" + scrapped[-4:]

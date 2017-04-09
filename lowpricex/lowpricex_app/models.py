@@ -15,10 +15,9 @@ class Plataforma(models.Model):
 
 class Juego(models.Model):
     sku = models.TextField(primary_key=True)
-    idIGDB = models.BigIntegerField(null=True)
     plataforma = models.ForeignKey(Plataforma)
     nombre = models.TextField()
-    portada = models.URLField()
+    portada = models.URLField(null=True)
     portadaCEX = models.URLField(null=True)
     precioVenta = models.FloatField()
     precioCompra = models.FloatField()
